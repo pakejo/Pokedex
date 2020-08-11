@@ -1,7 +1,17 @@
 import React from 'react'
 import Image from './Image'
+import { fetchImageOf } from '../helpers'
 
 class Card extends React.Component {
+
+    state = {
+        img: ''
+    }
+
+    componentDidMount() {        
+        fetchImageOf(this.props.name)
+            .then(res => this.setState({img: res}))
+    }
 
     render() {
         return (
@@ -11,13 +21,13 @@ class Card extends React.Component {
                     <div className="hovereffect">
                         <Image
                             className="img-responsive"
-                            imageURL={"https://vignette.wikia.nocookie.net/es.pokemon/images/f/f2/Eevee.png/revision/latest?cb=20150621181400"}
+                            imageURL={this.state.img}
                         />
                         <div className="overlay">
-                            <h2>Eevee</h2>
+                            <h2>{this.props.name}</h2>
                             <p className="icon-links">
-                                <a>Normal</a>
-                                <a>Lucha</a>
+                                <a>Tipo 1</a>
+                                <a>Tipo 2</a>
                             </p>
                         </div>
                     </div>
