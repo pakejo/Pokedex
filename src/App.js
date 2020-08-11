@@ -26,11 +26,12 @@ class App extends React.Component {
         <h1 className="d-flex align-items-center justify-content-center py-3" >Pokedex</h1>
         <Grid>
           {
-            this.state.pokemon.slice(0, 10).map((pokemon, index) => {
+            this.state.pokemon.slice(0, 12).map((pokemon, index) => {
               return (
                 <Card
                   key={index}
                   name={pokemon.name}
+                  index={("00" + (index + 1)).slice(-3)}
                 />
               )
             })
