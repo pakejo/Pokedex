@@ -12,7 +12,7 @@ class Image extends React.Component {
             <Palette src={this.props.imageURL}>
                 {({ data }) => (
                     <img
-                        className="img-fluid rounded"
+                        className="img-fluid rounded imagen"
                         style={{ backgroundColor: data.vibrant }}
                         src={this.props.imageURL}
                         alt="Pokemon Logo" />
