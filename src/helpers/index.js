@@ -11,7 +11,7 @@ export const fetchPokemon = async () => {
 
     await Axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemonCount}`)
         .then(res => {
-            pokemonList = res.data.results
+            pokemonList = res.data.results.map(entry => entry.name)
         })
 
     return pokemonList
