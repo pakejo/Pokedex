@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Card from './components/Card'
 import Grid from './components/Grid'
 import { Sidebar } from './components/SideBar'
-import { fetchPokemon } from './helpers'
+import { fetchPokemon, getPokemonFromGeneration } from './helpers'
 
 class App extends React.Component {
 
@@ -14,7 +14,7 @@ class App extends React.Component {
       lastPokemonLoaded: 0,
       hasMoreItems: true,
       newItems: [],
-      sidebarIsToggled: true
+      sidebarIsToggled: false
     }
   }
 
@@ -26,7 +26,8 @@ class App extends React.Component {
       this.setState({
         pokemon: res,
         lastPokemonLoaded: 10,
-        newItems: res.slice(0, 10)
+        newItems: res.slice(0, 10),
+        sidebarIsToggled: true
       })
     })
   }
@@ -74,6 +75,10 @@ class App extends React.Component {
     )
   }
 
+  /**
+   * @description handle click event
+   * to show or not the sidebar
+   */
   handleClick = e => {
     e.preventDefault();
     this.setState({
@@ -81,16 +86,24 @@ class App extends React.Component {
     })
   }
 
+  showPokemonOfGeneration = (genNumber) => {
+
+    if (genNumber > 0) {
+      const pokemon = getPokemonFromGeneration(genNumber)
+      pokemon.then(res => console.log(res))
+    }
+  }
+
   render() {
     return (
       <div className={this.state.sidebarIsToggled ? "d-flex toggled" : "d-flex"} id="wrapper">
-        <Sidebar />
+        <Sidebar callback={this.showPokemonOfGeneration} />
 
         <div id="page-content-wrapper">
           <button className="btn btn-primary" id="menu-toggle" onClick={this.handleClick}>
             {this.state.sidebarIsToggled
-              ? <i class="fas fa-angle-double-right"></i>
-              : <i class="fas fa-angle-double-left"></i>
+              ? <i className="fas fa-angle-double-right"></i>
+              : <i className="fas fa-angle-double-left"></i>
             }
           </button>
 
