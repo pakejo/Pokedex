@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import Card from './components/Card'
 import Grid from './components/Grid'
+import { Sidebar } from './components/SideBar'
 import { fetchPokemon } from './helpers'
-import InfiniteScroll from 'react-infinite-scroll-component'
 
 class App extends React.Component {
 
@@ -12,7 +13,8 @@ class App extends React.Component {
       pokemon: [],
       lastPokemonLoaded: 0,
       hasMoreItems: true,
-      newItems: []
+      newItems: [],
+      sidebarIsToggled: true
     }
   }
 
@@ -29,96 +31,92 @@ class App extends React.Component {
     })
   }
 
+  /**
+   * @description Load more data from the API
+   */
   fetchMoreData = () => {
     const firstToLoad = this.state.lastPokemonLoaded
-    const lastToLoad = firstToLoad + 5
+    const lastToLoad = firstToLoad + 3
     const items = this.state.newItems
+    let hasMoreToLoad = true
 
     this.state.pokemon.slice(firstToLoad, lastToLoad)
       .map(pokemon => items.push(pokemon))
 
-    this.setState({ lastPokemonLoaded: lastToLoad })
+    if (lastToLoad >= this.state.pokemon.length)
+      hasMoreToLoad = false
+
+    this.setState({
+      lastPokemonLoaded: lastToLoad,
+      hasMoreItems: hasMoreToLoad
+    })
   };
 
-  _loader = () => {
+  /**
+   * @description The message that will show 
+   * when loadind more data
+   */
+  loader = () => {
     return (
       <div className="loader">Loading ...</div>
     )
   }
 
+  /**
+   * @description The message that will show
+   * when there are no more data to load
+   */
+  endMessage = () => {
+    return (
+      <p style={{ textAlign: "center" }}>
+        <b>Yay! You have seen it all</b>
+      </p>
+    )
+  }
+
+  handleClick = e => {
+    e.preventDefault();
+    this.setState({
+      sidebarIsToggled: !this.state.sidebarIsToggled
+    })
+  }
+
   render() {
     return (
-      <Fragment>
-        <h1 className="d-flex align-items-center justify-content-center py-3" >Pokedex</h1>
+      <div className={this.state.sidebarIsToggled ? "d-flex toggled" : "d-flex"} id="wrapper">
+        <Sidebar />
+
+        <div id="page-content-wrapper">
+          <button className="btn btn-primary" id="menu-toggle" onClick={this.handleClick}>
+            {this.state.sidebarIsToggled
+              ? <i class="fas fa-angle-double-right"></i>
+              : <i class="fas fa-angle-double-left"></i>
+            }
+          </button>
+
           <InfiniteScroll
             dataLength={this.state.newItems.length}
             next={this.fetchMoreData}
             hasMore={this.state.hasMoreItems}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
+            loader={this.loader}
+            endMessage={this.endMessage}
           >
             <Grid>
-            {
-              this.state.newItems.map((pokemon, index) => (
-                <Card
-                  key={index}
-                  name={pokemon}
-                  index={("00" + (index + 1)).slice(-3)}
-                />
-              ))
-            }
+              {
+                this.state.newItems.map((pokemon, index) => (
+                  <Card
+                    key={index}
+                    name={pokemon}
+                    index={("00" + (index + 1)).slice(-3)}
+                  />
+                ))
+              }
             </Grid>
           </InfiniteScroll>
-      </Fragment>
+        </div>
+      </div>
     )
   }
 }
 
 export default App;
-
-/**
- * this.state.pokemon.slice(0, 12).map((pokemon, index) => {
-              return (
-                <Card
-                  key={index}
-                  name={pokemon.name}
-                  index={("00" + (index + 1)).slice(-3)}
-                />
-              )
-            })
- */
-
-/*
-this.state.newItems.map((i, index) => (
-           <div style={style} key={index}>
-             div - #{index}
-           </div>
-         ))
-*/
-
-/**
- *
- <InfiniteScroll
-            dataLength={this.state.newItems.length}
-            next={this.fetchMoreData}
-            hasMore={this.state.hasMoreItems}
-            loader={<h4>Loading...</h4>}
-            endMessage={
-              <p style={{ textAlign: "center" }}>
-                <b>Yay! You have seen it all</b>
-              </p>
-            }
-          >
-            {
-              this.state.newItems.map((i, index) => (
-                <div style={style} key={index}>
-                  div - #{index}
-                </div>
-              ))
-            }
-          </InfiniteScroll>
- */
