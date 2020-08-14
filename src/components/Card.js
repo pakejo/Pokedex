@@ -8,9 +8,18 @@ class Card extends React.Component {
         img: ''
     }
 
-    componentDidMount() {        
+    componentDidMount() {
         fetchImageOf(this.props.name)
-            .then(res => this.setState({img: res}))
+            .then(res => this.setState({ img: res }))
+    }
+
+    componentDidUpdate(prevProps) {
+        /**
+         * When the user press a button the button 
+         * image must be change to the new content image
+         */
+        if (this.props.name !== prevProps.name)
+            fetchImageOf(this.props.name).then(res => this.setState({ img: res }))
     }
 
     render() {
@@ -26,7 +35,7 @@ class Card extends React.Component {
                         <div className="overlay">
                             <h2>{this.props.name}</h2>
                             <p className="icon-links">
-                                <a>Nº {this.props.index}</a>
+                                <a href="/">Nº {this.props.index}</a>
                             </p>
                         </div>
                     </div>

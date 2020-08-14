@@ -27,6 +27,9 @@ export const fetchImageOf = async (name) => {
         .then(res => {
             imgURL = res.data.sprites.other['official-artwork'].front_default
         })
+        .catch(() => {
+            imgURL = process.env.PUBLIC_URL + 'img/noImage.jpg'
+        })
 
     return imgURL
 }
@@ -44,23 +47,3 @@ export const getPokemonFromGeneration = async (genNumber) => {
     
     return pokemon
 }
-
-
-// Get info of each pokemon
-/*for (let index = 0; index < pokemonList.length; index++) {
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonList[index]}`)
-        .then(res => {
-            const pokemon = {}
-            pokemon.index = index
-            pokemon.name = res.data.name    //Get the name
-            pokemon.types = []
-
-            // Get the types
-            res.data.types.forEach(entry => {
-                pokemon.types.push(entry.type.name)
-            })
-
-            results.push(pokemon)
-        })
-
-}*/

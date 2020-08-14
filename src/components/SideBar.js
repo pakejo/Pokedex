@@ -5,28 +5,37 @@ export class Sidebar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            selectedButton: -1
+            selectedButton: -1,
+            previousSelectedButton: -1
         }
+        // Labels for the button of each generation
         this.names = [
             'Generation I', 'Generation II',
             'Generation III', 'Generation IV',
-            'Generation V', 'Generation VI',
-            'Generation VII']
+            'Generation V', 'Generation VI']
     }
 
-    handleClick(buttonID) {
-
-        if (this.state.selectedButton === buttonID) {
-            this.setState({ selectedButton: -1 })
-            //this.props.callback(this.state.selectedButton + 1)
-        }
-        else {
-            this.setState({ selectedButton: buttonID })
-        }
-    }
 
     componentDidUpdate() {
-        this.props.callback(this.state.selectedButton + 1)
+        // If we press one button update the state and notify the father
+        if (this.state.previousSelectedButton !== this.state.selectedButton) {
+            this.props.callback(this.state.selectedButton + 1)
+            this.setState({
+                previousSelectedButton: this.state.selectedButton
+            })
+        }
+    }
+
+    /**
+     * @description Handler for the onClick event
+     * @param buttonID The number of the button the user pressed 
+     */
+    handleClick(buttonID) {
+        // If we press the same botton, deselect it
+        if (this.state.selectedButton === buttonID)
+            this.setState({ selectedButton: -1 })
+        else
+            this.setState({ selectedButton: buttonID })
     }
 
     render() {
@@ -39,11 +48,11 @@ export class Sidebar extends React.Component {
                         this.names.map((name, index) => {
                             if (index === this.state.selectedButton)
                                 return (
-                                    <button onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-aqua">{name}</button>
+                                    <button key={index} onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-aqua">{name}</button>
                                 )
                             else
                                 return (
-                                    <button onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-light">{name}  </button>
+                                    <button key={index} onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-light">{name}  </button>
                                 )
                         })
                     }

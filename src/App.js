@@ -1,9 +1,9 @@
 import React from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
-import Card from './components/Card'
-import Grid from './components/Grid'
 import { Sidebar } from './components/SideBar'
 import { fetchPokemon, getPokemonFromGeneration } from './helpers'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import Grid from './components/Grid'
+
 
 class App extends React.Component {
 
@@ -11,10 +11,11 @@ class App extends React.Component {
     super(props)
     this.state = {
       pokemon: [],
+      newItems: [],
       lastPokemonLoaded: 0,
       hasMoreItems: true,
-      newItems: [],
-      sidebarIsToggled: false
+      sidebarIsToggled: false,
+      filterByGeneration: false
     }
   }
 
@@ -25,8 +26,8 @@ class App extends React.Component {
     listaPokemon.then(res => {
       this.setState({
         pokemon: res,
-        lastPokemonLoaded: 10,
-        newItems: res.slice(0, 10),
+        lastPokemonLoaded: 15,
+        newItems: res.slice(0, 15),
         sidebarIsToggled: true
       })
     })
@@ -86,11 +87,33 @@ class App extends React.Component {
     })
   }
 
-  showPokemonOfGeneration = (genNumber) => {
+  /**
+   * @description Set the state with the pokemon
+   * of the generation passed as param
+   * @param genNumber Generation number
+   */
+  showPokemonOfGeneration = async (genNumber) => {
 
     if (genNumber > 0) {
+      console.log(genNumber)
       const pokemon = getPokemonFromGeneration(genNumber)
-      pokemon.then(res => console.log(res))
+      await pokemon.then(res => {
+        this.setState({
+          pokemon: res,
+          filterByGeneration: true,
+          newItems: res.slice(0, 10)
+        })
+      })
+    }
+    else {
+      const allPokemon = fetchPokemon()
+      await allPokemon.then(res => {
+        this.setState({
+          pokemon: res,
+          filterByGeneration: false,
+          newItems: res.slice(0, 10)
+        })
+      })
     }
   }
 
@@ -106,7 +129,6 @@ class App extends React.Component {
               : <i className="fas fa-angle-double-left"></i>
             }
           </button>
-
           <InfiniteScroll
             dataLength={this.state.newItems.length}
             next={this.fetchMoreData}
@@ -114,18 +136,10 @@ class App extends React.Component {
             loader={this.loader}
             endMessage={this.endMessage}
           >
-            <Grid>
-              {
-                this.state.newItems.map((pokemon, index) => (
-                  <Card
-                    key={index}
-                    name={pokemon}
-                    index={("00" + (index + 1)).slice(-3)}
-                  />
-                ))
-              }
+            <Grid newItems={this.state.newItems}>
             </Grid>
           </InfiniteScroll>
+
         </div>
       </div>
     )
