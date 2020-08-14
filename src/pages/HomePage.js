@@ -1,7 +1,7 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import Grid from './Grid'
-import { Sidebar } from './SideBar'
+import Grid from '../components/Grid'
+import { Sidebar } from '../components/SideBar'
 import { fetchPokemon, getPokemonFromGeneration } from '../helpers'
 
 export default class HomePage extends React.Component {

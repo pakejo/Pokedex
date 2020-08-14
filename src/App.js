@@ -1,6 +1,8 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import HomePage from './components/HomePage';
+import HomePage from './pages/HomePage';
+import PokemonInfo from './pages/PokemonInfo';
+import NotFound from './pages/NotFound';
 
 
 class App extends React.Component {
@@ -12,7 +14,16 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            component={() => <HomePage/>}
+            component={() => <HomePage />}
+          />
+          <Route
+            exact
+            path="/pokemon/:id"
+            component={() => <PokemonInfo />}
+          />
+          <Route
+            exact
+            component={() => <NotFound />}
           />
         </Switch>
       </Router>
