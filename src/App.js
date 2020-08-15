@@ -7,6 +7,17 @@ import NotFound from './pages/NotFound';
 
 class App extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedPokemon: ''
+    }
+  }
+
+  notifySelectedPokemon = (pokemon) => {
+    this.setState({selectedPokemon: pokemon})
+  } 
+
   render() {
     return (
       <Router>
@@ -14,16 +25,16 @@ class App extends React.Component {
           <Route
             exact
             path="/"
-            component={() => <HomePage />}
+            component={HomePage}
           />
           <Route
             exact
             path="/pokemon/:id"
-            component={() => <PokemonInfo />}
+            component={PokemonInfo}
           />
           <Route
             exact
-            component={() => <NotFound />}
+            component={NotFound}
           />
         </Switch>
       </Router>

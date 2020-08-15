@@ -1,5 +1,9 @@
 import Axios from 'axios'
 
+/**
+ * @description Get the complete Pokemon list
+ * @returns A list with all pokemon names
+ */
 export const fetchPokemon = async () => {
     let pokemonCount = 0
     let pokemonList = []
@@ -19,6 +23,30 @@ export const fetchPokemon = async () => {
     return pokemonList
 }
 
+/**
+ * @description Get all pokemon of genNumber generarion
+ * @param {int} genNumber Generation number
+ * @returns List of pokemon of the generation passed as param
+ */
+export const getPokemonFromGeneration = async (genNumber) => {
+
+    let pokemon = []
+
+    await Axios.get(`https://pokeapi.co/api/v2/generation/${genNumber}`)
+        .then(res => {
+            res.data.pokemon_species.forEach(entry => {
+                pokemon.push(entry.name)
+            })
+        })
+
+    return pokemon
+}
+
+/**
+ * @description Get the image of any pokemon
+ * @param {string} name Pokemon name
+ * @returns Image URL
+ */
 export const fetchImageOf = async (name) => {
 
     let imgURL = ''
@@ -34,16 +62,11 @@ export const fetchImageOf = async (name) => {
     return imgURL
 }
 
-export const getPokemonFromGeneration = async (genNumber) => {
-    
-    let pokemon = []
+/**
+ * @description Get a pokemon description
+ * @param {string} name Pokemon name
+ * @returns String with the description
+ */
+export const getDescriptionOf = async (name) => {
 
-    await Axios.get(`https://pokeapi.co/api/v2/generation/${genNumber}`)
-        .then(res => {
-            res.data.pokemon_species.forEach(entry => {
-                pokemon.push(entry.name)
-            })
-        })
-    
-    return pokemon
 }
