@@ -27,7 +27,7 @@ class Card extends React.Component {
         return (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12 d-flex justify-content-center">
                 <div className="card mt-5 shadow p-3 mx-auto mb-5 bg-white rounded card-personalizada">
-                    <Link to={`/pokemon/${this.props.name}`}>
+                    <Link to={`/Pokedex/${this.props.name}`}>
                         <div className="hovereffect">
                             <Image
                                 className="img-responsive"

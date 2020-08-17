@@ -24,12 +24,12 @@ class App extends React.Component {
         <Switch>
           <Route
             exact
-            path="/"
+            path="/Pokedex"
             component={HomePage}
           />
           <Route
             exact
-            path="/pokemon/:id"
+            path="/Pokedex/:id"
             component={PokemonInfo}
           />
           <Route
