@@ -6,9 +6,10 @@ export default class Radar extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            labels: ['HP', 'Attack', 'Special Attack',
-                'Defense', 'Special Defense', 'Speed'],
-            dataset: []
+            labels: ['HP', 'Attack', 'Defense',
+                'Special Attack', 'Special Defense', 'Speed'],
+            radarChart: Chart,
+            data: []
         }
     }
 
@@ -16,25 +17,36 @@ export default class Radar extends React.Component {
         this.create()
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.data !== this.props.data) {
+            this.setState({ data: this.props.data })
+            this.state.radarChart.data.datasets.forEach((dataset) => {
+                dataset.data.push(...Object.values(this.props.data))
+            })
+            this.state.radarChart.update()
+        }
+    }
+
     create = () => {
         let ctx = document.querySelector('canvas')
 
-        let radarChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: this.state.labels,
-                datasets: [{
-                    label: '',
-                    backgroundColor: "rgba(81,229,128,0.2)",
-                    data: [80, 25, 33, 80, 100, 10]
-                }]
-            },
-            options: {
-                aspectRatio: 1.3
-            }
+        this.setState({
+            radarChart: new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: this.state.labels,
+                    datasets: [{
+                        label: '',
+                        backgroundColor: "rgba(81,229,128,0.2)",
+                        data: this.state.data
+                    }]
+                },
+                options: {
+                    aspectRatio: 1.3
+                }
+            })
         })
 
-        return radarChart
     }
 
     render() {

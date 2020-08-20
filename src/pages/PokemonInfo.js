@@ -1,7 +1,7 @@
 import React from 'react'
 import Radar from '../components/Radar'
 import Image from '../components/Image'
-import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility } from '../helpers'
+import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility, fetchStatsOf } from '../helpers'
 
 export default class PokemonInfo extends React.Component {
 
@@ -13,7 +13,8 @@ export default class PokemonInfo extends React.Component {
             imgURL: '',
             types: [],
             weakness: [],
-            ability: {}
+            ability: {},
+            stats: {}
         }
     }
 
@@ -24,11 +25,13 @@ export default class PokemonInfo extends React.Component {
         let types = []
         let weakness = []
         let ability = {}
+        let stats = {}
 
         await fetchDescriptionOf(id).then(res => desc = res)
         await fetchImageOf(id).then(res => img = res)
         await fetchTypeOf(id).then(res => types = res)
         await fetchSpecialAbility(id).then(res => ability = res)
+        await fetchStatsOf(id).then(res => stats = res)
 
         // pass the first letter to uppercase
         types = types.map(type => {
@@ -43,12 +46,12 @@ export default class PokemonInfo extends React.Component {
             imgURL: img,
             types,
             weakness,
-            ability
+            ability,
+            stats
         })
     }
 
     render() {
-        console.log(this.state);
         return (
             <div className="container mt-3">
                 <div className="row justify-content-center">
@@ -96,7 +99,7 @@ export default class PokemonInfo extends React.Component {
                         <div className="text-center">
                             <h3>Stats</h3>
                         </div>
-                        <Radar />
+                        <Radar data={this.state.stats}/>
                     </div>
                 </div>
                 <div className="row justify-content-center">

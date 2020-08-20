@@ -178,3 +178,41 @@ export const weaknessOf = (type) => {
     return results
 }
 
+/**
+ * @description Get stats of a pokemon
+ * @param {string} name Pokemon name
+ * @returns object with a pokemon stats
+ */
+export const fetchStatsOf = async (name) => {
+
+    const pokemonStats = {
+        hp: 0,
+        attack: 0,
+        defense: 0,
+        specialAttack: 0,
+        specialDefense: 0,
+        speed: 0
+    }
+
+    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        .then(res => {
+            const { stats } = res.data
+            let value = 0
+            let name = ''
+
+            stats.forEach(stat => {
+                value = stat.base_stat
+                name = stat.stat.name
+
+                if (name === "special-attack") {
+                    name = "specialAttack"
+                } else if ( name === "special-defense") {
+                    name = "specialDefense"
+                }
+
+                pokemonStats[name] = value
+            })
+        })
+    
+    return pokemonStats
+}
