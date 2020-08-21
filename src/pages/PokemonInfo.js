@@ -1,7 +1,7 @@
 import React from 'react'
 import Radar from '../components/Radar'
 import Image from '../components/Image'
-import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility, fetchStatsOf } from '../helpers'
+import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility, fetchStatsOf, fetchMovesOf } from '../helpers'
 
 export default class PokemonInfo extends React.Component {
 
@@ -14,7 +14,8 @@ export default class PokemonInfo extends React.Component {
             types: [],
             weakness: [],
             ability: {},
-            stats: {}
+            stats: {},
+            moves: []
         }
     }
 
@@ -26,14 +27,16 @@ export default class PokemonInfo extends React.Component {
         let weakness = []
         let ability = {}
         let stats = {}
+        let moves = []
 
         await fetchDescriptionOf(id).then(res => desc = res)
         await fetchImageOf(id).then(res => img = res)
         await fetchTypeOf(id).then(res => types = res)
         await fetchSpecialAbility(id).then(res => ability = res)
         await fetchStatsOf(id).then(res => stats = res)
+        await fetchMovesOf(id).then(res => moves = res)
 
-        // pass the first letter to uppercase
+        // pass the first letter of each type to uppercase
         types = types.map(type => {
             return type.charAt(0).toUpperCase() + type.slice(1)
         })
@@ -47,7 +50,8 @@ export default class PokemonInfo extends React.Component {
             types,
             weakness,
             ability,
-            stats
+            stats,
+            moves
         })
     }
 
@@ -99,51 +103,36 @@ export default class PokemonInfo extends React.Component {
                         <div className="text-center">
                             <h3>Stats</h3>
                         </div>
-                        <Radar data={this.state.stats}/>
+                        <Radar data={this.state.stats} />
                     </div>
                 </div>
                 <div className="row justify-content-center">
-                    <div className="col-md-6">
-                        <table className="table table-responsive table-hover table-sm table-striped justify-content-center">
+                    <div className="col-md-12">
+                        <div className="text-center pt-3">
+                            <h3>Moves</h3>
+                        </div>
+                        <table className="table table-striped">
                             <thead>
                                 <tr>
                                     <th> #</th>
-                                    <th>Product</th>
-                                    <th>Payment Taken</th>
-                                    <th>Status</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Learn Method</th>
+                                    <th>Level</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>TB - Monthly</td>
-                                    <td>01/04/2012</td>
-                                    <td>Default</td>
-                                </tr>
-                                <tr className="table-active">
-                                    <td>1</td>
-                                    <td>TB - Monthly</td>
-                                    <td>01/04/2012</td>
-                                    <td>Approved</td>
-                                </tr>
-                                <tr className="table-success">
-                                    <td>2</td>
-                                    <td>TB - Monthly</td>
-                                    <td>02/04/2012</td>
-                                    <td>Declined</td>
-                                </tr>
-                                <tr className="table-warning">
-                                    <td>3</td>
-                                    <td>TB - Monthly</td>
-                                    <td>03/04/2012</td>
-                                    <td>Pending</td>
-                                </tr>
-                                <tr className="table-danger">
-                                    <td>4</td>
-                                    <td>TB - Monthly</td>
-                                    <td>04/04/2012</td>
-                                    <td>Call in to confirm</td>
-                                </tr>
+                                {
+                                    this.state.moves.map((move, index) => (
+                                        <tr key={index}>
+                                            <td>{index}</td>
+                                            <td>{move.name}</td>
+                                            <td>{move.description}</td>
+                                            <td>{move.learnMethod}</td>
+                                            <td>{move.levelLearned}</td>
+                                        </tr>
+                                    ))
+                                }
                             </tbody>
                         </table>
                     </div>

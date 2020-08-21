@@ -92,8 +92,11 @@ export const fetchDescriptionOf = async (name) => {
 
         await Axios.get(speciesURL)
             .then(res => {
-                const { flavor_text_entries } = res.data
-                description = flavor_text_entries[flavor_text_entries.length - 2].flavor_text
+                let {
+                    flavor_text_entries
+                } = res.data
+                flavor_text_entries = flavor_text_entries.filter(entry => entry.language.name === "en")
+                description = flavor_text_entries[flavor_text_entries.length - 1].flavor_text
             })
     }
 
@@ -111,7 +114,9 @@ export const fetchTypeOf = async (name) => {
 
     await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
         .then(res => {
-            const { types } = res.data
+            const {
+                types
+            } = res.data
             types.forEach(entry => pokemonTypes.push(entry.type.name))
         })
 
@@ -206,13 +211,51 @@ export const fetchStatsOf = async (name) => {
 
                 if (name === "special-attack") {
                     name = "specialAttack"
-                } else if ( name === "special-defense") {
+                } else if (name === "special-defense") {
                     name = "specialDefense"
                 }
 
                 pokemonStats[name] = value
             })
         })
-    
+
     return pokemonStats
+}
+
+export const fetchMovesOf = async (name) => {
+
+    const pokemonMoves = []
+
+    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        .then(async res => {
+
+            const { moves } = res.data
+
+            for (const move of moves) {
+
+                let moveData = {
+                    name: '',
+                    description: '',
+                    learnMethod: '',
+                    levelLearned: 0
+                }
+
+                moveData.name = move.move.name
+
+                const { version_group_details } = move
+                moveData.levelLearned = version_group_details[version_group_details.length - 1].level_learned_at
+                moveData.learnMethod = version_group_details[version_group_details.length - 1].move_learn_method.name
+
+                let moveURL = move.move.url
+
+                await Axios.get(moveURL)
+                    .then(res => {
+                        const { effect_entries } = res.data
+                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].effect
+                    })
+
+                pokemonMoves.push(moveData)
+            }
+        })
+    return pokemonMoves.sort(function (a, b) {return  a.levelLearned - b.levelLearned })
 }

@@ -8,8 +8,7 @@ export default class Radar extends React.Component {
         this.state = {
             labels: ['HP', 'Attack', 'Defense',
                 'Special Attack', 'Special Defense', 'Speed'],
-            radarChart: Chart,
-            data: []
+            radarChart: Chart
         }
     }
 
@@ -19,7 +18,6 @@ export default class Radar extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (prevProps.data !== this.props.data) {
-            this.setState({ data: this.props.data })
             this.state.radarChart.data.datasets.forEach((dataset) => {
                 dataset.data.push(...Object.values(this.props.data))
             })
