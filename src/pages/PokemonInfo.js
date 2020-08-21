@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Radar from '../components/Radar'
 import Image from '../components/Image'
 import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility, fetchStatsOf, fetchMovesOf } from '../helpers'
@@ -19,40 +20,32 @@ export default class PokemonInfo extends React.Component {
         }
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         const { id } = this.props.match.params
-        let desc = ''
-        let img = ''
-        let types = []
-        let weakness = []
-        let ability = {}
-        let stats = {}
-        let moves = []
 
-        await fetchDescriptionOf(id).then(res => desc = res)
-        await fetchImageOf(id).then(res => img = res)
-        await fetchTypeOf(id).then(res => types = res)
-        await fetchSpecialAbility(id).then(res => ability = res)
-        await fetchStatsOf(id).then(res => stats = res)
-        await fetchMovesOf(id).then(res => moves = res)
+        fetchDescriptionOf(id).then(res => this.setState({ description: res }))
+        fetchImageOf(id).then(res => this.setState({ imgURL: res }))
+        fetchSpecialAbility(id).then(res => this.setState({ ability: res }))
+        fetchStatsOf(id).then(res => this.setState({ stats: res }))
+        fetchMovesOf(id).then(res => this.setState({ moves: res }))
+        fetchTypeOf(id).then(res => {
+            let types = res
 
-        // pass the first letter of each type to uppercase
-        types = types.map(type => {
-            return type.charAt(0).toUpperCase() + type.slice(1)
+            // pass the first letter of each type to uppercase
+            types = types.map(type => {
+                return type.charAt(0).toUpperCase() + type.slice(1)
+            })
+
+            let weakness = weaknessOf(types)
+
+            this.setState({
+                types,
+                weakness
+            })
         })
 
-        weakness = weaknessOf(types)
-
-        this.setState({
-            pokemon: id.toUpperCase(),
-            description: desc,
-            imgURL: img,
-            types,
-            weakness,
-            ability,
-            stats,
-            moves
-        })
+        // put page to the history
+        this.props.history.push(`/Pokedex/${id}`);
     }
 
     render() {
@@ -111,7 +104,7 @@ export default class PokemonInfo extends React.Component {
                         <div className="text-center pt-3">
                             <h3>Moves</h3>
                         </div>
-                        <table className="table table-striped">
+                        <table className="table table-striped table-responsive">
                             <thead>
                                 <tr>
                                     <th> #</th>
@@ -137,6 +130,7 @@ export default class PokemonInfo extends React.Component {
                         </table>
                     </div>
                 </div>
+                <Link to="/Pokedex" className="my-2 btn btn-success btn-block">Go Back</Link>
             </div>
 
         )

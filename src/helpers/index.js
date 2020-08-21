@@ -251,11 +251,11 @@ export const fetchMovesOf = async (name) => {
                 await Axios.get(moveURL)
                     .then(res => {
                         const { effect_entries } = res.data
-                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].effect
+                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect
                     })
 
                 pokemonMoves.push(moveData)
             }
         })
-    return pokemonMoves.sort(function (a, b) {return  a.levelLearned - b.levelLearned })
+    return pokemonMoves.sort(function (a, b) { return a.levelLearned - b.levelLearned })
 }

@@ -16,7 +16,7 @@ export default class Grid extends React.Component {
       if (this.props.newItems !== prevProps.newItems)
         this.setState({ newItems: this.props.newItems })
 
-    } else
+    } else if (prevProps.newItems.length === 0 && this.props.newItems.length !== 0)
       this.setState({ newItems: this.props.newItems })
   }
 

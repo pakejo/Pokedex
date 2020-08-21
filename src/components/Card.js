@@ -36,7 +36,7 @@ class Card extends React.Component {
                             <div className="overlay">
                                 <h2>{this.props.name}</h2>
                                 <p className="icon-links">
-                                    <a href="/">Nº {this.props.index}</a>
+                                    <p>Nº {this.props.index}</p>
                                 </p>
                             </div>
                         </div>
