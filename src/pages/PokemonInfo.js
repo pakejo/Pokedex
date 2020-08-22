@@ -23,6 +23,9 @@ export default class PokemonInfo extends React.Component {
     componentDidMount() {
         const { id } = this.props.match.params
 
+        const name = id.charAt(0).toUpperCase() + id.slice(1)
+        this.setState({ pokemon: name })
+
         fetchDescriptionOf(id).then(res => this.setState({ description: res }))
         fetchImageOf(id).then(res => this.setState({ imgURL: res }))
         fetchSpecialAbility(id).then(res => this.setState({ ability: res }))
@@ -130,7 +133,7 @@ export default class PokemonInfo extends React.Component {
                         </table>
                     </div>
                 </div>
-                <Link to="/Pokedex" className="my-2 btn btn-success btn-block">Go Back</Link>
+                <Link className="my-2 btn btn-success btn-block" to={process.env.PUBLIC_URL} >Go Back</Link>
             </div>
 
         )

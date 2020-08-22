@@ -66,7 +66,7 @@ export const fetchImageOf = async (name) => {
             imgURL = res.data.sprites.other['official-artwork'].front_default
         })
         .catch(() => {
-            imgURL = process.env.PUBLIC_URL + 'img/noImage.jpg'
+            imgURL = process.env.PUBLIC_URL + '/img/noImage.jpg'
         })
 
     return imgURL

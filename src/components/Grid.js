@@ -11,13 +11,14 @@ export default class Grid extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    // Ued to load new content when we press any button or load default content
+    // Used to load new content when we press any button or load default content
     if (prevProps.newItems.length !== 0) {
       if (this.props.newItems !== prevProps.newItems)
         this.setState({ newItems: this.props.newItems })
 
-    } else if (prevProps.newItems.length === 0 && this.props.newItems.length !== 0)
+    } else if (this.state.newItems !== this.props.newItems) {
       this.setState({ newItems: this.props.newItems })
+    }
   }
 
   render() {
@@ -39,6 +40,6 @@ export default class Grid extends React.Component {
           </div>
         </div>
       </div>
-    );
+    )
   }
 }
