@@ -3,6 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Grid from '../components/Grid'
 import { Sidebar } from '../components/SideBar'
 import { fetchPokemon, getPokemonFromGeneration } from '../helpers'
+import Search from '../components/Search'
 
 export default class HomePage extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ export default class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    // Inicializamos el state
+    // Init state
     this.loadInitialContent()
   }
 
@@ -28,8 +29,9 @@ export default class HomePage extends React.Component {
     await listaPokemon.then(res => {
       this.setState({
         pokemon: res,
-        lastPokemonLoaded: 15,
         newItems: res.slice(0, 15),
+        lastPokemonLoaded: 15,
+        hasMoreItems: true,
         sidebarIsToggled: true
       })
     })
@@ -103,7 +105,19 @@ export default class HomePage extends React.Component {
     }
   }
 
+  resultHandler = data => {
+    console.log(data)
 
+    if (data.length > 0)
+      this.setState({
+        newItems: data,
+        lastPokemonLoaded: 0,
+        hasMoreItems: false
+      })
+    else {
+      this.loadInitialContent()
+    }
+  }
 
   render() {
     return (
@@ -117,6 +131,9 @@ export default class HomePage extends React.Component {
               : <i className="fas fa-angle-double-left"></i>
             }
           </button>
+
+          <Search searchIn={this.state.pokemon} resultHandler={this.resultHandler} />
+
           <InfiniteScroll
             dataLength={this.state.newItems.length}
             next={this.fetchMoreData}
