@@ -34,7 +34,7 @@ export const fetchPokemon = async () => {
 }
 
 /**
- * @description Get all pokemon of genNumber generarion
+ * @description Get all pokemon of any generarion
  * @param {int} genNumber Generation number
  * @returns List of pokemon of the generation passed as param
  */
