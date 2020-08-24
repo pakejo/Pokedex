@@ -43,9 +43,7 @@ export default class HomePage extends React.Component {
   fetchMoreData = async () => {
 
     if (this.state.pokemon.length === 0) {
-      console.log("Sin pokemon")
       await this.loadInitialContent()
-      console.log("Nuevos pokemon: ", this.state.pokemon);
     }
 
     const firstToLoad = this.state.lastPokemonLoaded
