@@ -5,10 +5,14 @@ import weakness from './Weakness'
 
 
 /**
- * export constants
+ * Export constants
  */
 export const TYPE_COLORS_GRADIENTS = typeColorsGradients
 
+/**
+ * Private constants
+ */
+const pokemonURL = 'https://pokeapi.co/api/v2/pokemon/'
 
 /**
  * @description Get the complete Pokemon list
@@ -61,7 +65,7 @@ export const fetchImageOf = async (name) => {
 
     let imgURL = ''
 
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    await Axios.get(`${pokemonURL}${name}`)
         .then(res => {
             imgURL = res.data.sprites.other['official-artwork'].front_default
         })
@@ -84,7 +88,7 @@ export const fetchDescriptionOf = async (name) => {
 
     if (name.length > 0) {
 
-        await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+        await Axios.get(`${pokemonURL}${name}`)
             .then(res => {
                 speciesURL = res.data.species.url
             })
@@ -112,7 +116,7 @@ export const fetchTypeOf = async (name) => {
 
     let pokemonTypes = []
 
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    await Axios.get(`${pokemonURL}${name}`)
         .then(res => {
             const {
                 types
@@ -138,7 +142,7 @@ export const fetchSpecialAbility = async (name) => {
 
     let descURL = ''
 
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    await Axios.get(`${pokemonURL}${name}`)
         .then(res => {
             ability.name = res.data.abilities[0].ability.name
             descURL = res.data.abilities[0].ability.url
@@ -199,7 +203,7 @@ export const fetchStatsOf = async (name) => {
         speed: 0
     }
 
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    await Axios.get(`${pokemonURL}${name}`)
         .then(res => {
             const { stats } = res.data
             let value = 0
@@ -226,7 +230,7 @@ export const fetchMovesOf = async (name) => {
 
     const pokemonMoves = []
 
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`)
+    await Axios.get(`${pokemonURL}${name}`)
         .then(async res => {
 
             const { moves } = res.data
