@@ -226,6 +226,12 @@ export const fetchStatsOf = async (name) => {
     return pokemonStats
 }
 
+
+/**
+ * @description Get the movements that a pokemon can learn
+ * @param {string} name Pokemon name
+ * @returns A list with the movements
+ */
 export const fetchMovesOf = async (name) => {
 
     const pokemonMoves = []
