@@ -5,8 +5,11 @@ import { Link } from 'react-router-dom'
 
 class Card extends React.Component {
 
-    state = {
-        img: ''
+    constructor(props) {
+        super()
+        this.state = {
+            img: ''
+        }
     }
 
     componentDidMount() {
@@ -16,7 +19,7 @@ class Card extends React.Component {
 
     componentDidUpdate(prevProps) {
         /**
-         * When the user press a button the button 
+         * When the user press a button
          * image must be change to the new content image
          */
         if (this.props.name !== prevProps.name)

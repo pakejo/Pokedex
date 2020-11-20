@@ -4,7 +4,7 @@ import Chart from 'chart.js'
 export default class Radar extends React.Component {
 
     constructor(props) {
-        super(props)
+        super()
         this.state = {
             labels: ['HP', 'Attack', 'Defense',
                 'Special Attack', 'Special Defense', 'Speed'],

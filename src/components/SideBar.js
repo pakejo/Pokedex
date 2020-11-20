@@ -3,7 +3,7 @@ import React from 'react'
 export default class Sidebar extends React.Component {
 
     constructor(props) {
-        super(props)
+        super()
         this.state = {
             selectedButton: -1,
             previousSelectedButton: -1

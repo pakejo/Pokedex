@@ -1,19 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-export default class Search extends React.Component {
+const Search = (props) => {
 
-    static defaultProps = {
-        searchIn: PropTypes.arrayOf(PropTypes.string),
-        resultHandler: PropTypes.func
-    }
-
-    /**
-     * @description Handler for the search
-     * @param {Event} event The event
-     */
-    handleOnInputChange = event => {
-        const { resultHandler, searchIn } = this.props
+    const handleOnInputChange = event => {
+        const { resultHandler, searchIn } = props
         const search = event.target.value
 
         if (search.length > 0) {
@@ -28,23 +19,28 @@ export default class Search extends React.Component {
 
     }
 
-    render() {
-        return (
-            <div className="container">
-                <form>
-                    <div className="input-group">
-                        <input
-                            className="form-control py-2 border-right-0 border"
-                            type="search" id="example-search-input"
-                            placeholder="Search"
-                            onChange={this.handleOnInputChange}
-                        />
-                        <span className="input-group-append">
-                            <div className="input-group-text bg-transparent"><i className="fa fa-search"></i></div>
-                        </span>
-                    </div>
-                </form>
-            </div>
-        )
-    }
+    return (
+        <div className="container">
+            <form>
+                <div className="input-group">
+                    <input
+                        className="form-control py-2 border-right-0 border"
+                        type="search" id="example-search-input"
+                        placeholder="Search"
+                        onChange={handleOnInputChange}
+                    />
+                    <span className="input-group-append">
+                        <div className="input-group-text bg-transparent"><i className="fa fa-search"></i></div>
+                    </span>
+                </div>
+            </form>
+        </div>
+    )
 }
+
+Search.propTypes = {
+    searchIn: PropTypes.arrayOf(PropTypes.string),
+    resultHandler: PropTypes.func
+};
+
+export default Search

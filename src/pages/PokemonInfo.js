@@ -7,7 +7,7 @@ import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, w
 export default class PokemonInfo extends React.Component {
 
     constructor(props) {
-        super(props)
+        super()
         this.state = {
             pokemon: '',
             description: '',
