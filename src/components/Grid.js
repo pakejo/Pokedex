@@ -4,7 +4,7 @@ import Card from './Card'
 export default class Grid extends React.Component {
 
   constructor(props) {
-    super(props)
+    super()
     this.state = {
       newItems: []
     }

@@ -7,7 +7,7 @@ import Search from '../components/Search'
 
 export default class HomePage extends React.Component {
   constructor(props) {
-    super(props)
+    super()
     this.state = {
       pokemon: [],
       newItems: [],
@@ -80,7 +80,6 @@ export default class HomePage extends React.Component {
    * @param genNumber Generation number
    */
   showPokemonOfGeneration = async (genNumber) => {
-
     if (genNumber > 0) {
       const pokemon = getPokemonFromGeneration(genNumber)
       await pokemon.then(res => {
