@@ -10,7 +10,7 @@ import weakness from './Weakness'
 export const TYPE_COLORS_GRADIENTS = typeColorsGradients
 
 /**
- * Private constants
+ * @private Private constants
  */
 const pokemonURL = 'https://pokeapi.co/api/v2/pokemon/'
 
@@ -239,7 +239,7 @@ export const fetchMovesOf = async (name) => {
     await Axios.get(`${pokemonURL}${name}`)
         .then(async res => {
 
-            const { moves } = res.data
+            const { moves } = res.data  // Move list
 
             for (const move of moves) {
 
@@ -250,22 +250,29 @@ export const fetchMovesOf = async (name) => {
                     levelLearned: 0
                 }
 
-                moveData.name = move.move.name
+                moveData.name = move.move.name // move name
 
                 const { version_group_details } = move
+                // level learned
                 moveData.levelLearned = version_group_details[version_group_details.length - 1].level_learned_at
+
+                // Learn method
                 moveData.learnMethod = version_group_details[version_group_details.length - 1].move_learn_method.name
 
+                // move data
                 let moveURL = move.move.url
 
+                // get a move description in english and delete somo special characters
                 await Axios.get(moveURL)
                     .then(res => {
                         const { effect_entries } = res.data
-                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect
+                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect.replace(/\$effect_chance\%/, "")
                     })
 
                 pokemonMoves.push(moveData)
             }
         })
+
+    // sort the moves according to the level they can be learnt
     return pokemonMoves.sort(function (a, b) { return a.levelLearned - b.levelLearned })
 }

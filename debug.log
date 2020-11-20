@@ -2,3 +2,18 @@
 [0821/122349.852:ERROR:exception_snapshot_win.cc(98)] thread ID 5396 not found in process
 [0821/122349.853:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Se intentó obtener acceso a un proceso que está cerrándose. (0xc000010a)
 [0902/172023.172:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/211419.532:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/212419.534:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/212419.535:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/212919.548:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/223823.093:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/225323.118:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/230823.131:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/232323.134:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/233632.601:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/233823.145:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0915/235323.159:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0916/000758.567:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0916/000823.168:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[0916/002323.170:ERROR:crash_report_database_win.cc(469)] failed to stat report
+[1120/173108.429:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)

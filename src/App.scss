@@ -1,15 +1,22 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
 
 .card-personalizada {
-  transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+  transition: 0.3s transform cubic-bezier(0.155, 1.105, 0.295, 1.12),
+    0.3s box-shadow,
+    0.3s -webkit-transform cubic-bezier(0.155, 1.105, 0.295, 1.12);
   padding: 14px 80px 18px 36px;
 }
 
 .card-personalizada:hover {
   transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
 }
 
 .card-personalizada .imagen {
@@ -20,7 +27,6 @@
 .card-personalizada .imagen:hover {
   opacity: 0.8;
 }
-
 
 /*Hover effect*/
 .hovereffect {
@@ -42,14 +48,13 @@
   bottom: 0;
   padding: 1em;
   height: 4.75em;
-  background: #79FAC4;
+  background: #79fac4;
   color: #3c4a50;
   -webkit-transition: -webkit-transform 0.35s;
   transition: transform 0.35s;
   -webkit-transform: translate3d(0, 100%, 0);
   transform: translate3d(0, 100%, 0);
   visibility: hidden;
-
 }
 
 .hovereffect img {
@@ -92,7 +97,6 @@
   box-shadow: 0 0 5px #fff;
 }
 
-
 .hovereffect p.icon-links p {
   float: right;
   color: #3c4a50;
@@ -119,7 +123,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 
 .hovereffect:hover .overlay,
 .hovereffect:hover h2,
@@ -157,10 +160,10 @@
 #sidebar-wrapper {
   min-height: 100vh;
   margin-left: -15rem;
-  -webkit-transition: margin .25s ease-out;
-  -moz-transition: margin .25s ease-out;
-  -o-transition: margin .25s ease-out;
-  transition: margin .25s ease-out;
+  -webkit-transition: margin 0.25s ease-out;
+  -moz-transition: margin 0.25s ease-out;
+  -o-transition: margin 0.25s ease-out;
+  transition: margin 0.25s ease-out;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -200,14 +203,14 @@
 }
 
 .bg-personal:hover {
-  background-color: rgba(127, 255, 212, 1)
+  background-color: rgba(127, 255, 212, 1);
 }
 
-@import "node_modules/bootstrap/scss/functions"; 
-@import "node_modules/bootstrap/scss/variables"; 
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
 
 $theme-colors: (
-  aqua: aquamarine
+  aqua: aquamarine,
 );
 
 @import "bootstrap";
@@ -224,8 +227,8 @@ $theme-colors: (
   left: 50%;
   top: 50%;
   -webkit-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .notfound {
@@ -240,26 +243,26 @@ $theme-colors: (
 }
 
 .notfound .notfound-404 h1 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 146px;
   font-weight: 700;
   margin: 0px;
   color: #232323;
 }
 
-.notfound .notfound-404 h1>img {
+.notfound .notfound-404 h1 > img {
   display: inline-block;
   width: 120px;
   height: 120px;
   background-size: cover;
   -webkit-transform: scale(1.4);
-      -ms-transform: scale(1.4);
-          transform: scale(1.4);
+  -ms-transform: scale(1.4);
+  transform: scale(1.4);
   z-index: -1;
 }
 
 .notfound h2 {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 22px;
   font-weight: 700;
   margin: 0;
@@ -268,13 +271,13 @@ $theme-colors: (
 }
 
 .notfound p {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: #787878;
   font-weight: 300;
 }
 
 .notfound a {
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   display: inline-block;
   padding: 12px 30px;
   font-weight: 700;
@@ -297,8 +300,14 @@ $theme-colors: (
   .notfound .notfound-404 h1 {
     font-size: 86px;
   }
-  .notfound .notfound-404 h1>span {
+  .notfound .notfound-404 h1 > span {
     width: 86px;
     height: 86px;
   }
+}
+
+/***************************************/
+.bg-pokemon {
+  background-image: url("https://www.creativefabrica.com/wp-content/uploads/2020/06/12/Soft-Blue-Gradient-Ombre-Background-Graphics-4343907-1.jpg");
+  background-size: cover;
 }
