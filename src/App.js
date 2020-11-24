@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import HomePage from './containers/homePageContainer.js';
+import HomePage from './pages/HomePage';
 import PokemonInfo from './pages/PokemonInfo';
 import NotFound from './pages/NotFound';
 
@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound';
 class App extends React.Component {
 
   constructor(props) {
-    super(props)
+    super()
     this.state = {
       selectedPokemon: ''
     }

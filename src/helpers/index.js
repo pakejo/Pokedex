@@ -266,7 +266,7 @@ export const fetchMovesOf = async (name) => {
                 await Axios.get(moveURL)
                     .then(res => {
                         const { effect_entries } = res.data
-                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect.replace(/\$effect_chance\%/, "")
+                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect.replace(/\$effect_chance/, "")
                     })
 
                 pokemonMoves.push(moveData)

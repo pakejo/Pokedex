@@ -1,7 +1,7 @@
 import React from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import Grid from '../components/Grid'
-import { Sidebar } from '../components/SideBar'
+import Sidebar from '../components/Sidebar'
 import { fetchPokemon, getPokemonFromGeneration } from '../helpers'
 import Search from '../components/Search'
 

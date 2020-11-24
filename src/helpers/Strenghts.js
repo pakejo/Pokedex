@@ -16,7 +16,7 @@ const strenghts = {
     Ice: ["Dragon", "Grass", "Ground", "Flying"],
     Dragon: ["Dragon"],
     Fairy: ["Dragon", "Fight", "Dark"],
-    Dark: ["Ghost", "Psychic"]
-}
+    Dark: ["Ghost", "Psychic"],
+};
 
-export default strenghts
+export default strenghts;
