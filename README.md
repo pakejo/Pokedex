@@ -1,4 +1,5 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The app is also hasted in gh-pages on the follow link: https://pakejo.github.io/Pokedex/
 
 ## Available Scripts
 
