@@ -1,41 +1,38 @@
-import Axios from 'axios'
-import typeColorsGradients from './Gradients'
-import strenghts from './Strenghts'
-import weakness from './Weakness'
-
+import Axios from "axios";
+import typeColorsGradients from "./Gradients";
+import strenghts from "./Strenghts";
+import weakness from "./Weakness";
 
 /**
  * Export constants
  */
-export const TYPE_COLORS_GRADIENTS = typeColorsGradients
+export const TYPE_COLORS_GRADIENTS = typeColorsGradients;
 
 /**
  * @private Private constants
  */
-const pokemonURL = 'https://pokeapi.co/api/v2/pokemon/'
+const pokemonURL = "https://pokeapi.co/api/v2/pokemon/";
 
 /**
  * @description Get the complete Pokemon list
  * @returns A list with all pokemon names
  */
 export const fetchPokemon = async () => {
-    let pokemonCount = 0
-    let pokemonList = []
+    let pokemonCount = 0;
+    let pokemonList = [];
 
     // Get total number of Pokemon
-    await Axios.get("https://pokeapi.co/api/v2/pokemon/")
-        .then(res => {
-            pokemonCount = res.data.count
-        })
+    await Axios.get(pokemonURL).then((res) => {
+        pokemonCount = res.data.count;
+    });
 
     // Get pokemon name
-    await Axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${pokemonCount}`)
-        .then(res => {
-            pokemonList = res.data.results.map(entry => entry.name)
-        })
+    await Axios.get(`${pokemonURL}?limit=${pokemonCount}`).then((res) => {
+        pokemonList = res.data.results.map((entry) => entry.name);
+    });
 
-    return pokemonList
-}
+    return pokemonList;
+};
 
 /**
  * @description Get all pokemon of any generarion
@@ -43,18 +40,18 @@ export const fetchPokemon = async () => {
  * @returns List of pokemon of the generation passed as param
  */
 export const getPokemonFromGeneration = async (genNumber) => {
+    let pokemon = [];
 
-    let pokemon = []
+    await Axios.get(`https://pokeapi.co/api/v2/generation/${genNumber}`).then(
+        (res) => {
+            res.data.pokemon_species.forEach((entry) => {
+                pokemon.push(entry.name);
+            });
+        }
+    );
 
-    await Axios.get(`https://pokeapi.co/api/v2/generation/${genNumber}`)
-        .then(res => {
-            res.data.pokemon_species.forEach(entry => {
-                pokemon.push(entry.name)
-            })
-        })
-
-    return pokemon
-}
+    return pokemon;
+};
 
 /**
  * @description Get the image of any pokemon
@@ -62,19 +59,18 @@ export const getPokemonFromGeneration = async (genNumber) => {
  * @returns Image URL
  */
 export const fetchImageOf = async (name) => {
-
-    let imgURL = ''
+    let imgURL = "";
 
     await Axios.get(`${pokemonURL}${name}`)
-        .then(res => {
-            imgURL = res.data.sprites.other['official-artwork'].front_default
+        .then((res) => {
+            imgURL = res.data.sprites.other["official-artwork"].front_default;
         })
         .catch(() => {
-            imgURL = process.env.PUBLIC_URL + '/img/noImage.jpg'
-        })
+            imgURL = process.env.PUBLIC_URL + "/img/noImage.jpg";
+        });
 
-    return imgURL
-}
+    return imgURL;
+};
 
 /**
  * @description Get a pokemon description
@@ -82,30 +78,26 @@ export const fetchImageOf = async (name) => {
  * @returns String with the description
  */
 export const fetchDescriptionOf = async (name) => {
-
-    let speciesURL = ''
-    let description = ''
+    let speciesURL = "";
+    let description = "";
 
     if (name.length > 0) {
+        await Axios.get(`${pokemonURL}${name}`).then((res) => {
+            speciesURL = res.data.species.url;
+        });
 
-        await Axios.get(`${pokemonURL}${name}`)
-            .then(res => {
-                speciesURL = res.data.species.url
-            })
-
-
-        await Axios.get(speciesURL)
-            .then(res => {
-                let {
-                    flavor_text_entries
-                } = res.data
-                flavor_text_entries = flavor_text_entries.filter(entry => entry.language.name === "en")
-                description = flavor_text_entries[flavor_text_entries.length - 1].flavor_text
-            })
+        await Axios.get(speciesURL).then((res) => {
+            let { flavor_text_entries } = res.data;
+            flavor_text_entries = flavor_text_entries.filter(
+                (entry) => entry.language.name === "en"
+            );
+            description =
+                flavor_text_entries[flavor_text_entries.length - 1].flavor_text;
+        });
     }
 
-    return description
-}
+    return description;
+};
 
 /**
  * @description Get the elementary types of a Pokemon
@@ -113,19 +105,15 @@ export const fetchDescriptionOf = async (name) => {
  * @returns Array with elementary types
  */
 export const fetchTypeOf = async (name) => {
+    let pokemonTypes = [];
 
-    let pokemonTypes = []
+    await Axios.get(`${pokemonURL}${name}`).then((res) => {
+        const { types } = res.data;
+        types.forEach((entry) => pokemonTypes.push(entry.type.name));
+    });
 
-    await Axios.get(`${pokemonURL}${name}`)
-        .then(res => {
-            const {
-                types
-            } = res.data
-            types.forEach(entry => pokemonTypes.push(entry.type.name))
-        })
-
-    return pokemonTypes
-}
+    return pokemonTypes;
+};
 
 /**
  * @description Get the data of a Pokemon special ability
@@ -133,31 +121,30 @@ export const fetchTypeOf = async (name) => {
  * @returns Object with special ability data
  */
 export const fetchSpecialAbility = async (name) => {
-
     const ability = {
-        name: '',
-        description: '',
-        effect: ''
-    }
+        name: "",
+        description: "",
+        effect: "",
+    };
 
-    let descURL = ''
+    let descURL = "";
 
-    await Axios.get(`${pokemonURL}${name}`)
-        .then(res => {
-            ability.name = res.data.abilities[0].ability.name
-            descURL = res.data.abilities[0].ability.url
-        })
+    await Axios.get(`${pokemonURL}${name}`).then((res) => {
+        ability.name = res.data.abilities[0].ability.name;
+        descURL = res.data.abilities[0].ability.url;
+    });
 
-    await Axios.get(descURL)
-        .then(res => {
-            const { effect_entries, flavor_text_entries } = res.data
-            ability.description = flavor_text_entries[flavor_text_entries.length - 3].flavor_text
-            ability.effect = effect_entries.filter(entry => entry.language.name === "en")[0].effect
-        })
+    await Axios.get(descURL).then((res) => {
+        const { effect_entries, flavor_text_entries } = res.data;
+        ability.description =
+            flavor_text_entries[flavor_text_entries.length - 3].flavor_text;
+        ability.effect = effect_entries.filter(
+            (entry) => entry.language.name === "en"
+        )[0].effect;
+    });
 
-    return ability
-}
-
+    return ability;
+};
 
 /**
  * @description Get the weakness of a pokemon
@@ -165,27 +152,25 @@ export const fetchSpecialAbility = async (name) => {
  * @returns Weakness
  */
 export const weaknessOf = (type) => {
-
-    let results = []
+    let results = [];
 
     if (type.length === 1) {
-        results = weakness[type[0]]
+        results = weakness[type[0]];
     } else {
+        let weaknessFirstType = weakness[type[0]];
+        let weaknessSecondType = weakness[type[1]];
+        let strenghtsFirstTipe = strenghts[type[0]];
+        let strenghtsSecondTipe = strenghts[type[1]];
 
-        let weaknessFirstType = weakness[type[0]]
-        let weaknessSecondType = weakness[type[1]]
-        let strenghtsFirstTipe = strenghts[type[0]]
-        let strenghtsSecondTipe = strenghts[type[1]]
-
-        results.push(...weaknessFirstType, ...weaknessSecondType)
+        results.push(...weaknessFirstType, ...weaknessSecondType);
         results = results
-            .filter(entry => type.includes(entry) === false)
-            .filter(entry => strenghtsFirstTipe.includes(entry) === false)
-            .filter(entry => strenghtsSecondTipe.includes(entry) === false)
+            .filter((entry) => type.includes(entry) === false)
+            .filter((entry) => strenghtsFirstTipe.includes(entry) === false)
+            .filter((entry) => strenghtsSecondTipe.includes(entry) === false);
     }
 
-    return results
-}
+    return results;
+};
 
 /**
  * @description Get stats of a pokemon
@@ -193,39 +178,36 @@ export const weaknessOf = (type) => {
  * @returns object with a pokemon stats
  */
 export const fetchStatsOf = async (name) => {
-
     const pokemonStats = {
         hp: 0,
         attack: 0,
         defense: 0,
         specialAttack: 0,
         specialDefense: 0,
-        speed: 0
-    }
+        speed: 0,
+    };
 
-    await Axios.get(`${pokemonURL}${name}`)
-        .then(res => {
-            const { stats } = res.data
-            let value = 0
-            let name = ''
+    await Axios.get(`${pokemonURL}${name}`).then((res) => {
+        const { stats } = res.data;
+        let value = 0;
+        let name = "";
 
-            stats.forEach(stat => {
-                value = stat.base_stat
-                name = stat.stat.name
+        stats.forEach((stat) => {
+            value = stat.base_stat;
+            name = stat.stat.name;
 
-                if (name === "special-attack") {
-                    name = "specialAttack"
-                } else if (name === "special-defense") {
-                    name = "specialDefense"
-                }
+            if (name === "special-attack") {
+                name = "specialAttack";
+            } else if (name === "special-defense") {
+                name = "specialDefense";
+            }
 
-                pokemonStats[name] = value
-            })
-        })
+            pokemonStats[name] = value;
+        });
+    });
 
-    return pokemonStats
-}
-
+    return pokemonStats;
+};
 
 /**
  * @description Get the movements that a pokemon can learn
@@ -233,46 +215,51 @@ export const fetchStatsOf = async (name) => {
  * @returns A list with the movements
  */
 export const fetchMovesOf = async (name) => {
+    const pokemonMoves = [];
 
-    const pokemonMoves = []
+    await Axios.get(`${pokemonURL}${name}`).then(async (res) => {
+        const { moves } = res.data; // Move list
 
-    await Axios.get(`${pokemonURL}${name}`)
-        .then(async res => {
+        for (const move of moves) {
+            let moveData = {
+                name: "",
+                description: "",
+                learnMethod: "",
+                levelLearned: 0,
+            };
 
-            const { moves } = res.data  // Move list
+            moveData.name = move.move.name; // move name
 
-            for (const move of moves) {
+            const { version_group_details } = move;
+            // level learned
+            moveData.levelLearned =
+                version_group_details[
+                    version_group_details.length - 1
+                ].level_learned_at;
 
-                let moveData = {
-                    name: '',
-                    description: '',
-                    learnMethod: '',
-                    levelLearned: 0
-                }
+            // Learn method
+            moveData.learnMethod =
+                version_group_details[
+                    version_group_details.length - 1
+                ].move_learn_method.name;
 
-                moveData.name = move.move.name // move name
+            // move data
+            let moveURL = move.move.url;
 
-                const { version_group_details } = move
-                // level learned
-                moveData.levelLearned = version_group_details[version_group_details.length - 1].level_learned_at
+            // get a move description in english and delete somo special characters
+            await Axios.get(moveURL).then((res) => {
+                const { effect_entries } = res.data;
+                moveData.description = effect_entries
+                    .filter((description) => description.language.name === "en")[0]
+                    .short_effect.replace(/\$effect_chance%/, "");
+            });
 
-                // Learn method
-                moveData.learnMethod = version_group_details[version_group_details.length - 1].move_learn_method.name
-
-                // move data
-                let moveURL = move.move.url
-
-                // get a move description in english and delete somo special characters
-                await Axios.get(moveURL)
-                    .then(res => {
-                        const { effect_entries } = res.data
-                        moveData.description = effect_entries.filter(description => description.language.name === "en")[0].short_effect.replace(/\$effect_chance/, "")
-                    })
-
-                pokemonMoves.push(moveData)
-            }
-        })
+            pokemonMoves.push(moveData);
+        }
+    });
 
     // sort the moves according to the level they can be learnt
-    return pokemonMoves.sort(function (a, b) { return a.levelLearned - b.levelLearned })
-}
+    return pokemonMoves.sort(function (a, b) {
+        return a.levelLearned - b.levelLearned;
+    });
+};

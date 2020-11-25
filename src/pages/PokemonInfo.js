@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import Radar from '../components/Radar'
 import Image from '../components/Image'
 import { fetchDescriptionOf, fetchImageOf, fetchTypeOf, TYPE_COLORS_GRADIENTS, weaknessOf, fetchSpecialAbility, fetchStatsOf, fetchMovesOf } from '../helpers'
+import LoadingSpinner from '../components/LoadingSpinner'
 
 export default class PokemonInfo extends React.Component {
 
@@ -108,30 +109,34 @@ export default class PokemonInfo extends React.Component {
                             <div className="text-center pt-3">
                                 <h3>Moves</h3>
                             </div>
-                            <table className="table table-striped table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th> #</th>
-                                        <th>Name</th>
-                                        <th>Description</th>
-                                        <th>Learn Method</th>
-                                        <th>Level</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.state.moves.map((move, index) => (
-                                            <tr key={index}>
-                                                <td>{index}</td>
-                                                <td>{move.name}</td>
-                                                <td>{move.description}</td>
-                                                <td>{move.learnMethod}</td>
-                                                <td>{move.levelLearned}</td>
+                            {
+                                this.state.moves.length === 0
+                                    ? <LoadingSpinner />
+                                    : <table className="table table-striped table-responsive">
+                                        <thead>
+                                            <tr>
+                                                <th> #</th>
+                                                <th>Name</th>
+                                                <th>Description</th>
+                                                <th>Learn Method</th>
+                                                <th>Level</th>
                                             </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                this.state.moves.map((move, index) => (
+                                                    <tr key={index}>
+                                                        <td>{index}</td>
+                                                        <td>{move.name}</td>
+                                                        <td>{move.description}</td>
+                                                        <td>{move.learnMethod}</td>
+                                                        <td>{move.levelLearned}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                            }
                         </div>
                     </div>
                     <Link className="my-2 btn btn-success btn-block" to={process.env.PUBLIC_URL} >Go Back</Link>

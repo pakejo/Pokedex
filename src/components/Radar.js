@@ -6,8 +6,6 @@ export default class Radar extends React.Component {
     constructor(props) {
         super()
         this.state = {
-            labels: ['HP', 'Attack', 'Defense',
-                'Special Attack', 'Special Defense', 'Speed'],
             radarChart: Chart
         }
     }
@@ -32,7 +30,7 @@ export default class Radar extends React.Component {
             radarChart: new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: this.state.labels,
+                    labels: ['HP', 'Attack', 'Defense','Special Attack', 'Special Defense', 'Speed'],
                     datasets: [{
                         label: '',
                         backgroundColor: "rgba(81,229,128,0.2)",
