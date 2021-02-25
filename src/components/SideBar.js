@@ -28,14 +28,14 @@ export default class Sidebar extends React.Component {
 
     /**
      * @description Handler for the onClick event
-     * @param buttonID The number of the button the user pressed 
+     * @param buttonID The number of the button the user pressed
      */
     handleClick(buttonID) {
-        // If we press the same botton, deselect it
+        // If we press the same button, deselect it
         if (this.state.selectedButton === buttonID)
-            this.setState({ selectedButton: -1 })
+            this.setState({selectedButton: -1})
         else
-            this.setState({ selectedButton: buttonID })
+            this.setState({selectedButton: buttonID})
     }
 
     render() {
@@ -48,11 +48,13 @@ export default class Sidebar extends React.Component {
                         this.names.map((name, index) => {
                             if (index === this.state.selectedButton)
                                 return (
-                                    <button key={index} onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-aqua">{name}</button>
+                                    <button key={index} onClick={() => this.handleClick(index)}
+                                            className="list-group-item list-group-item-action bg-aqua">{name}</button>
                                 )
                             else
                                 return (
-                                    <button key={index} onClick={() => this.handleClick(index)} className="list-group-item list-group-item-action bg-light">{name}  </button>
+                                    <button key={index} onClick={() => this.handleClick(index)}
+                                            className="list-group-item list-group-item-action bg-light">{name}  </button>
                                 )
                         })
                     }

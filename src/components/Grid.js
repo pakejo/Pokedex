@@ -10,10 +10,10 @@ export default class Grid extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate({newItems}) {
     // Used to load new content when we press any button or load default content
-    if (prevProps.newItems.length !== 0) {
-      if (this.props.newItems !== prevProps.newItems)
+    if (newItems.length !== 0) {
+      if (this.props.newItems !== newItems)
         this.setState({ newItems: this.props.newItems })
 
     } else if (this.state.newItems !== this.props.newItems) {

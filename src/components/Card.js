@@ -17,12 +17,12 @@ class Card extends React.Component {
             .then(res => this.setState({ img: res }))
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate({name}) {
         /**
          * When the user press a button
          * image must be change to the new content image
          */
-        if (this.props.name !== prevProps.name)
+        if (this.props.name !== name)
             fetchImageOf(this.props.name).then(res => this.setState({ img: res }))
     }
 

@@ -30,7 +30,7 @@ const Search = (props) => {
                         onChange={handleOnInputChange}
                     />
                     <span className="input-group-append">
-                        <div className="input-group-text bg-transparent"><i className="fa fa-search"></i></div>
+                        <div className="input-group-text bg-transparent"><i className="fa fa-search"/></div>
                     </span>
                 </div>
             </form>
